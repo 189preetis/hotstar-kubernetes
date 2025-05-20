@@ -1,14 +1,11 @@
 pipeline {
     agent any
 
-    environment {
-        AWS_SHARED_CREDENTIALS_FILE = '/mnt/data/.aws/credentials'
-        AWS_CONFIG_FILE = '/mnt/data/.aws/config'
-        // Optional: if you have a named profile (e.g., [hotstar] in credentials/config), uncomment below:
-        // AWS_PROFILE = 'hotstar'
-    }
-    environment {
-    PATH = "/mnt/data/bin:$PATH"
+   environment {
+    AWS_SHARED_CREDENTIALS_FILE = '/mnt/data/.aws/credentials'
+    AWS_CONFIG_FILE             = '/mnt/data/.aws/config'
+    AWS_PROFILE                 = 'default'         // Explicitly set this to match your files
+    PATH                        = "/mnt/data/bin:${env.PATH}"
 }
 
     parameters {
@@ -16,6 +13,20 @@ pipeline {
     }
 
     stages {
+        
+        stage('Debug AWS Env') {
+            steps {
+                sh '''
+                    echo "Checking AWS environment variables..."
+                    echo "AWS_SHARED_CREDENTIALS_FILE=$AWS_SHARED_CREDENTIALS_FILE"
+                    echo "AWS_CONFIG_FILE=$AWS_CONFIG_FILE"
+                    echo "AWS_PROFILE=$AWS_PROFILE"
+                    ls -l $AWS_SHARED_CREDENTIALS_FILE
+                    ls -l $AWS_CONFIG_FILE
+                '''
+            }
+        }
+
         stage('Checkout from Git') {
             steps {
                 git branch: 'main', url: 'https://github.com/189preetis/hotstar-kubernetes.git'
