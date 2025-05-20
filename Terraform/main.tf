@@ -10,7 +10,6 @@ terraform {
 # Configure the AWS Provider to use shared credentials file and default profile
 provider "aws" {
   region                  = "ap-south-1"
-  shared_credentials_files = ["/mnt/data/.aws/credentials"]
   profile                 = "default"
 }
 
