@@ -1,4 +1,4 @@
-- job_name: 'blackbox'
+ job_name: 'blackbox'
     metrics_path: /probe
     params:
       module: [http_2xx]  # Look for a HTTP 200 response.
@@ -13,6 +13,8 @@
         target_label: instance
       - target_label: __address__
         replacement: 13.232.214.2:9115  # The blackbox exporter's real hostname.
+
+
 
 
 - job_name: node_exporter
